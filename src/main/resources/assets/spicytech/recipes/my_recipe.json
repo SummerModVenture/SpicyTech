@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#P"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "minecraft:boat"
+    }
+  },
+  "result": {
+    "item": "spicytech:cool_block",
+    "data": 0,
+    "count": 1
+  }
+}
