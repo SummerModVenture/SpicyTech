@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "spicytech:blocks/cool_block"
+    "all": "spicytech:blocks/power_controller"
   }
 }

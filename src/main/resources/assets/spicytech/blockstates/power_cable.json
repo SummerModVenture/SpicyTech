@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": [
-      { "model": "spicytech:cool_block" }
+      { "model": "spicytech:power_cable" }
     ]
   }
 }

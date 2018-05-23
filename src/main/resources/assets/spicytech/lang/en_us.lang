@@ -1,1 +1,3 @@
-tile.cool_block.name=Top Kek
+tile.power_controller.name=Power Controller
+tile.power_cable.name=Power Cable
+itemGroup.spicytech_tab=SpicyTech
