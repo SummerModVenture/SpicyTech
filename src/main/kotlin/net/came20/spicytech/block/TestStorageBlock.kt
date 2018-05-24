@@ -14,16 +14,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
-object TestStorageBlock: SpicyTechBlockMachine("test_storage") {
+object TestStorageBlock: SpicyTechBlockMachine("test_storage", TestStorageGuiHandler) {
     override fun createNewTileEntity(worldIn: World?, meta: Int): TileEntity? {
         return TestStorageTileEntity()
-    }
-
-    override fun onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState?, playerIn: EntityPlayer, hand: EnumHand?, facing: EnumFacing?, hitX: Float, hitY: Float, hitZ: Float): Boolean {
-        println(worldIn.isRemote)
-        if (worldIn.isRemote) return true
-        playerIn.openGui(SpicyTech.instance, TestStorageGuiHandler.id.ordinal, worldIn, pos.x, pos.y, pos.z)
-        return true
     }
 
     override fun breakBlock(worldIn: World, pos: BlockPos, state: IBlockState) {

@@ -13,7 +13,7 @@ import net.minecraft.util.text.TextComponentTranslation
 import java.util.*
 import kotlin.experimental.and
 
-class TestStorageTileEntity: TileEntity(), IInventory {
+class TestStorageTileEntity: SpicyTechMachineTileEntity() {
     private val itemStacks = Array<ItemStack>(9, {ItemStack.EMPTY})
 
     override fun clear() {
@@ -102,41 +102,11 @@ class TestStorageTileEntity: TileEntity(), IInventory {
         return "container.teststorage.name"
     }
 
-    override fun hasCustomName(): Boolean {
-        return false
-    }
-
-    override fun getDisplayName(): ITextComponent? {
-        return if (hasCustomName()) {
-            TextComponentString(name)
-        } else {
-            TextComponentTranslation(name)
-        }
-    }
-
     override fun removeStackFromSlot(index: Int): ItemStack {
         val stack = getStackInSlot(index)
         if (!stack.isEmpty) setInventorySlotContents(index, ItemStack.EMPTY)
         return stack
     }
 
-    override fun openInventory(player: EntityPlayer?) {
 
-    }
-
-    override fun closeInventory(player: EntityPlayer?) {
-
-    }
-
-    override fun getField(id: Int): Int {
-        return 0
-    }
-
-    override fun setField(id: Int, value: Int) {
-
-    }
-
-    override fun getFieldCount(): Int {
-        return 0
-    }
 }
