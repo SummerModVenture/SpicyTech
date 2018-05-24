@@ -23,23 +23,20 @@ object ModBlocks {
     @SubscribeEvent
     @JvmStatic fun registerBlocks(e: RegistryEvent.Register<Block>) {
         e.registry.registerAll(
-                PowerControllerBlock,
-                PowerCableBlock
+                TestStorageBlock
         )
     }
 
     @SubscribeEvent
     @JvmStatic fun registerItemBlocks(e: RegistryEvent.Register<Item>) {
         e.registry.registerAll(
-                itemBlock(PowerControllerBlock),
-                itemBlock(PowerCableBlock)
+                itemBlock(TestStorageBlock)
         )
     }
 
     @SubscribeEvent
     @JvmStatic fun registerRenders(e: ModelRegistryEvent) {
-        registerRender(PowerControllerBlock)
-        registerRender(PowerCableBlock)
+        registerRender(TestStorageBlock)
     }
 
     fun init() {
