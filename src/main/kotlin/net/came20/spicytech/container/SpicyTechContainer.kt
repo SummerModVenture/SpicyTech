@@ -1,5 +1,6 @@
 package net.came20.spicytech.container
 
+import net.came20.spicytech.SpicyTech
 import net.came20.spicytech.tile.SpicyTechMachineTileEntity
 import net.came20.spicytech.slotset.IVanillaSlotSet
 import net.came20.spicytech.slotset.SlotSetBase
@@ -45,7 +46,7 @@ abstract class SpicyTechContainer(private val invPlayer: InventoryPlayer, privat
 
     private var cachedFields: IntArray? = null
 
-    override fun canInteractWith(playerIn: EntityPlayer?): Boolean {
+    override fun canInteractWith(playerIn: EntityPlayer): Boolean {
         return tile.isUsableByPlayer(playerIn)
     }
 

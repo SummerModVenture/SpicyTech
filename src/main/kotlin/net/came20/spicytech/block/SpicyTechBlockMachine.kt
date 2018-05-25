@@ -2,6 +2,7 @@ package net.came20.spicytech.block
 
 import net.came20.spicytech.SpicyTech
 import net.came20.spicytech.gui.SpicyTechGuiHandler
+import net.came20.spicytech.tile.SpicyTechMachineTileEntity
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
@@ -18,5 +19,11 @@ abstract class SpicyTechBlockMachine(name: String, private val guiHandler: Spicy
         if (worldIn.isRemote) return true
         playerIn.openGui(SpicyTech.instance, guiHandler.id.ordinal, worldIn, pos.x, pos.y, pos.z)
         return true
+    }
+
+    override fun breakBlock(worldIn: World, pos: BlockPos, state: IBlockState?) {
+        val tile = worldIn.getTileEntity(pos) as? SpicyTechMachineTileEntity
+        tile?.dropItems(worldIn, pos)
+        super.breakBlock(worldIn, pos, state)
     }
 }

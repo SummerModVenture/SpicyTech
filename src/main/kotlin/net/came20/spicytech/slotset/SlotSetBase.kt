@@ -27,7 +27,6 @@ abstract class SlotSetBase(val name: String,
                 slotNumber = i + firstSlot
                 val xPos = startXPos + x * xSpacing
                 val yPos = startYPos + y * ySpacing
-                SpicyTech.logger.info("Creating slot $slotNumber, index $i for SlotSetBase $name at ($xPos, $yPos)")
                 slots[i] = object : Slot(inventory, slotNumber, xPos, yPos) {
                     override fun isItemValid(stack: ItemStack): Boolean {
                         return validityChecker.checkValidity(stack)
