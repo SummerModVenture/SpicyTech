@@ -1,14 +1,18 @@
 package net.came20.spicytech.container
 
-import net.came20.spicytech.SpicyTech
 import net.came20.spicytech.tile.SpicyTechMachineTileEntity
-import net.came20.spicytech.slotset.IVanillaSlotSet
-import net.came20.spicytech.slotset.SlotSetBase
+import net.came20.spicytech.etc.IVanillaSlotSet
+import net.came20.spicytech.etc.SlotSetBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.inventory.Container
 import net.minecraft.inventory.Slot
 import net.minecraft.item.ItemStack
+import net.minecraftforge.fml.common.thread.SidedThreadGroups.CLIENT
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
+
+
 
 abstract class SpicyTechContainer(private val invPlayer: InventoryPlayer, private val tile: SpicyTechMachineTileEntity, vararg val slotSets: SlotSetBase): Container() {
     companion object {
@@ -18,6 +22,7 @@ abstract class SpicyTechContainer(private val invPlayer: InventoryPlayer, privat
         const val PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT
         const val VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT
         const val VANILLA_FIRST_SLOT_INDEX = 0
+        const val PLAYER_INVENTORY_FIRST_SLOT_INDEX = 9
         const val MOD_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT
 
         fun slotIndex(offset: Int) = MOD_FIRST_SLOT_INDEX + offset
@@ -91,7 +96,7 @@ abstract class SpicyTechContainer(private val invPlayer: InventoryPlayer, privat
                 cachedFields = IntArray(tile.fieldCount)
                 allFieldsHaveChanged = true
             }
-            val cachedFields = this.cachedFields!!
+            val cachedFields = this.cachedFields!! //force smart cast
             for (i in 0 until cachedFields.size) {
                 if (allFieldsHaveChanged || cachedFields[i] != tile.getField(i)) {
                     cachedFields[i] = tile.getField(i)
@@ -105,5 +110,24 @@ abstract class SpicyTechContainer(private val invPlayer: InventoryPlayer, privat
                         .forEach { i -> it.sendWindowProperty(this, i, cachedFields[i]) }
             }
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    override fun updateProgressBar(id: Int, data: Int) {
+        tile.setField(id, data)
+    }
+
+    /**
+     * Returns true if successful
+     */
+    protected fun mergeWithHotbar(source: ItemStack): Boolean {
+        return mergeItemStack(source, VANILLA_FIRST_SLOT_INDEX, PLAYER_INVENTORY_FIRST_SLOT_INDEX, false)
+    }
+
+    /**
+     * Returns true if successful
+     */
+    protected fun mergeWithPlayerInventory(source: ItemStack): Boolean {
+        return mergeItemStack(source, PLAYER_INVENTORY_FIRST_SLOT_INDEX, MOD_FIRST_SLOT_INDEX, false)
     }
 }

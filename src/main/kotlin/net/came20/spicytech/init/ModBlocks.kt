@@ -23,20 +23,23 @@ object ModBlocks {
     @SubscribeEvent
     @JvmStatic fun registerBlocks(e: RegistryEvent.Register<Block>) {
         e.registry.registerAll(
-                TestStorageBlock
+                TestStorageBlock,
+                BasicCrusherBlock
         )
     }
 
     @SubscribeEvent
     @JvmStatic fun registerItemBlocks(e: RegistryEvent.Register<Item>) {
         e.registry.registerAll(
-                itemBlock(TestStorageBlock)
+                itemBlock(TestStorageBlock),
+                itemBlock(BasicCrusherBlock)
         )
     }
 
     @SubscribeEvent
     @JvmStatic fun registerRenders(e: ModelRegistryEvent) {
         registerRender(TestStorageBlock)
+        registerRender(BasicCrusherBlock)
     }
 
     fun init() {

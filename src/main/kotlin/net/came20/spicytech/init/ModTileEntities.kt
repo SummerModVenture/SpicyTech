@@ -1,6 +1,7 @@
 package net.came20.spicytech.init
 
 import net.came20.spicytech.ModInfo
+import net.came20.spicytech.tile.BasicCrusherTileEntity
 import net.came20.spicytech.tile.TestStorageTileEntity
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.registry.GameRegistry
@@ -9,5 +10,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 object ModTileEntities {
     fun init() {
         GameRegistry.registerTileEntity(TestStorageTileEntity::class.java, ModInfo.MODID + "TestStorageTileEntity")
+        GameRegistry.registerTileEntity(BasicCrusherTileEntity::class.java, ModInfo.MODID + "BasicCrusherTileEntity")
     }
 }

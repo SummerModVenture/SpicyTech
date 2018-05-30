@@ -1,4 +1,4 @@
-package net.came20.spicytech.gui
+package net.came20.spicytech.guihandler
 
 import net.minecraftforge.fml.common.network.IGuiHandler
 

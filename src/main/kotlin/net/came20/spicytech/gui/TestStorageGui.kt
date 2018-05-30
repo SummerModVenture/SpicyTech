@@ -23,6 +23,12 @@ class TestStorageGui(val playerInventory: InventoryPlayer, val tile: TestStorage
         ySize = 133
     }
 
+    override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
+        drawDefaultBackground()
+        super.drawScreen(mouseX, mouseY, partialTicks)
+        renderHoveredToolTip(mouseX, mouseY)
+    }
+
     override fun drawGuiContainerBackgroundLayer(partialTicks: Float, mouseX: Int, mouseY: Int) {
         Minecraft.getMinecraft().textureManager.bindTexture(texture)
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)

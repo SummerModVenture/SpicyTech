@@ -1,6 +1,7 @@
-package net.came20.spicytech.gui
+package net.came20.spicytech.guihandler
 
 import net.came20.spicytech.container.TestStorageContainer
+import net.came20.spicytech.gui.TestStorageGui
 import net.came20.spicytech.tile.TestStorageTileEntity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.math.BlockPos

@@ -1,8 +1,5 @@
-package net.came20.spicytech.slotset
+package net.came20.spicytech.etc
 
-import net.came20.spicytech.SpicyTech
-import net.came20.spicytech.container.DefaultValidityChecker
-import net.came20.spicytech.container.IValidityChecker
 import net.minecraft.inventory.IInventory
 import net.minecraft.inventory.Slot
 import net.minecraft.item.ItemStack
@@ -14,8 +11,7 @@ abstract class SlotSetBase(val name: String,
                        val startXPos: Int,
                        val startYPos: Int,
                        val xSpacing: Int = 18,
-                       val ySpacing: Int = 18,
-                       val validityChecker: IValidityChecker = DefaultValidityChecker) {
+                       val ySpacing: Int = 18) {
     val numSlots = numRows * numCols
 
     fun buildSlots(firstSlot: Int): Array<Slot> {
@@ -29,7 +25,7 @@ abstract class SlotSetBase(val name: String,
                 val yPos = startYPos + y * ySpacing
                 slots[i] = object : Slot(inventory, slotNumber, xPos, yPos) {
                     override fun isItemValid(stack: ItemStack): Boolean {
-                        return validityChecker.checkValidity(stack)
+                        return inventory.isItemValidForSlot(slotNumber, stack)
                     }
                 }
                 i++

@@ -1,4 +1,4 @@
-package net.came20.spicytech.slotset
+package net.came20.spicytech.etc
 
 import net.minecraft.entity.player.InventoryPlayer
 

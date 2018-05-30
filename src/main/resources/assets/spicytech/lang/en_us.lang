@@ -1,3 +1,6 @@
-tile.power_controller.name=Power Controller
-tile.power_cable.name=Power Cable
 itemGroup.spicytech_tab=SpicyTech
+
+container.test_storage.name=Test Storage
+container.basic_crusher.name=Basic Crusher
+
+item.iron_bits.name=Iron Bits
