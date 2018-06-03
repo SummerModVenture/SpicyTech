@@ -1,5 +1,6 @@
 package net.came20.spicytech.tile
 
+import net.came20.spicytech.etc.FieldManager
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.IInventory
@@ -18,17 +19,27 @@ import net.minecraft.world.World
 import java.util.*
 import kotlin.experimental.and
 
-abstract class SpicyTechMachineTileEntity(numStacks: Int): TileEntity(), ISidedInventory, ITickable {
+abstract class SpicyTechMachineTileEntity(numStacks: Int, fieldStartingIndex: Int = 0): TileEntity(), ISidedInventory, ITickable {
     protected val itemStacks = Array<ItemStack>(numStacks, {ItemStack.EMPTY})
+    protected val fieldManager = FieldManager(fieldStartingIndex)
 
     override fun openInventory(player: EntityPlayer?) {}
     override fun closeInventory(player: EntityPlayer?) {}
-    override fun getField(id: Int) = 0
-    override fun setField(id: Int, value: Int) {}
-    override fun getFieldCount() = 0
     override fun update() {}
     override fun hasCustomName() = false
     override fun getDisplayName() = if (hasCustomName()) TextComponentString(name) else TextComponentTranslation(name)
+
+    override fun getFieldCount(): Int {
+        return fieldManager.getNumFields()
+    }
+
+    override fun getField(id: Int): Int {
+        return fieldManager.getField(id)
+    }
+
+    override fun setField(id: Int, value: Int) {
+        fieldManager.setField(id, value)
+    }
 
     override fun clear() {
         Arrays.fill(itemStacks, ItemStack.EMPTY)

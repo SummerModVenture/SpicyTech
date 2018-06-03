@@ -1,5 +1,6 @@
 package net.came20.spicytech.tile
 
+import net.came20.spicytech.controller.GeneratorController
 import net.came20.spicytech.recipe.CrusherRecipes
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
@@ -28,6 +29,12 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
     private var currentItemRunTime = 0 //The number of ticks the current item will keep the crusher running for
     private var progress = 0
     private var totalProgress = 0
+
+    val generator = GeneratorController(1, Short.MAX_VALUE.toInt())
+
+    init {
+        fieldManager.register(generator)
+    }
 
     override fun getName(): String {
         return "container.basic_crusher.name"
@@ -111,23 +118,35 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
 
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
+        generator.readFromNBT(compound)
+        /*
         crusherRunTime = compound.getInteger("run_time")
         progress = compound.getInteger("crush_time")
         totalProgress = compound.getInteger("total_crush_time")
         currentItemRunTime = getItemRunTime(itemStacks[FUEL_SLOT])
+        */
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
+        generator.writeToNBT(compound)
+        /*
         compound.setInteger("run_time", crusherRunTime)
         compound.setInteger("crush_time", progress)
         compound.setInteger("total_crush_time", totalProgress)
+        return compound
+        */
         return compound
     }
 
     fun isRunning() = crusherRunTime > 0
 
     override fun update() {
+        if (!world.isRemote) {
+            val fuelStack = itemStacks[FUEL_SLOT]
+            generator.update(fuelStack)
+        }
+        /*
         val runningAtStart = isRunning()
         var changed = false
 
@@ -190,12 +209,14 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
         }
 
         if (changed) markDirty() //Tell mc we changed
+        */
     }
 
     /**
      * Apparently this is needed to synchronize between the client and the server in the GUI,
      * although I don't understand why NBT can't just be used for this...
      */
+    /*
     override fun getField(id: Int): Int {
         return when (id) {
             FIELD_RUN_TIME -> crusherRunTime
@@ -226,4 +247,5 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
     override fun getFieldCount(): Int {
         return NUM_FIELDS
     }
+    */
 }
