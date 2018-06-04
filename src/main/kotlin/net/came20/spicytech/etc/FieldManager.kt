@@ -1,5 +1,6 @@
 package net.came20.spicytech.etc
 
+import net.came20.spicytech.SpicyTech
 import net.came20.spicytech.controller.IController
 
 /**
@@ -23,7 +24,7 @@ class FieldManager(startingIndex: Int = 0) {
             return controller.getNumFields()
         }
 
-        fun hasId(id: Int) = id in startIndex until getNumFields()
+        fun hasId(id: Int) = id in startIndex until getNumFields() + startIndex
     }
 
     fun register(controller: IController) {
@@ -32,7 +33,12 @@ class FieldManager(startingIndex: Int = 0) {
     }
 
     fun getField(id: Int): Int {
-        return controllers.first { it.hasId(id) }.getField(id)
+        return try {
+            controllers.first { it.hasId(id) }.getField(id)
+        } catch (e: NoSuchElementException) {
+            SpicyTech.logger.error("Field manager doesn't have field $id!", e)
+            0
+        }
     }
 
     fun setField(id: Int, value: Int) {

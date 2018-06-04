@@ -44,29 +44,17 @@ class BasicCrusherGui(val invPlayer: InventoryPlayer, val tile: BasicCrusherTile
             val k = getRuntimeScaled(13)
             drawTexturedModalRect(i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1)
         }
-        /*
         val l = getProgressScaled(24)
         drawTexturedModalRect(i + 79, j + 34, 176, 14, l + 1, 16)
-        */
     }
 
     private fun isBurning() = tile.generator.isRunning()
 
     private fun getRuntimeScaled(pixels: Int): Int {
         return (tile.generator.getBurnTimePercentage() * pixels).toInt()
-        /*
-        var i = tile.getField(BasicCrusherTileEntity.FIELD_CURRENT_ITEM_RUN_TIME)
-        if (i == 0) i = 200
-        return tile.getField(BasicCrusherTileEntity.FIELD_RUN_TIME) * pixels / i
-        */
     }
 
     private fun getProgressScaled(pixels: Int): Int {
-        val progress = tile.getField(BasicCrusherTileEntity.FIELD_PROGRESS)
-        val totalProgress = tile.getField(BasicCrusherTileEntity.FIELD_TOTAL_PROGRESS)
-        if (progress != 0 && totalProgress != 0) {
-            return progress * pixels / totalProgress
-        }
-        return 0
+        return (tile.crusher.getProgressPercentage() * pixels).toInt()
     }
 }

@@ -1,5 +1,6 @@
 package net.came20.spicytech.tile
 
+import net.came20.spicytech.controller.CrusherController
 import net.came20.spicytech.controller.GeneratorController
 import net.came20.spicytech.recipe.CrusherRecipes
 import net.minecraft.item.ItemStack
@@ -17,36 +18,18 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
         val SLOTS_DOWN = intArrayOf(OUTPUT_SLOT)
         val SLOTS_SIDES = intArrayOf(FUEL_SLOT)
         val SLOTS_TOP = intArrayOf(INPUT_SLOT)
-
-        const val FIELD_RUN_TIME = 0
-        const val FIELD_CURRENT_ITEM_RUN_TIME = 1
-        const val FIELD_PROGRESS = 2
-        const val FIELD_TOTAL_PROGRESS = 3
-        const val NUM_FIELDS = 4
     }
 
-    private var crusherRunTime = 0 //Number of ticks the crusher will run for
-    private var currentItemRunTime = 0 //The number of ticks the current item will keep the crusher running for
-    private var progress = 0
-    private var totalProgress = 0
-
     val generator = GeneratorController(1, Short.MAX_VALUE.toInt())
+    val crusher = CrusherController(1)
 
     init {
         fieldManager.register(generator)
+        fieldManager.register(crusher)
     }
 
     override fun getName(): String {
         return "container.basic_crusher.name"
-    }
-
-    /**
-     * Returns the number of ticks it will take to crush an item.
-     * Currently returns 200 (furnace), but can be configured in
-     * the future to return custom values based on the input item
-     */
-    private fun getCrushTime(stack: ItemStack): Int {
-        return 200
     }
 
     override fun getSlotsForFace(side: EnumFacing): IntArray {
@@ -58,43 +41,7 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
     }
 
     private fun isItemValidFuel(stack: ItemStack): Boolean {
-        return TileEntityFurnace.isItemFuel(stack)
-    }
-
-    private fun getItemRunTime(stack: ItemStack): Int {
-        return TileEntityFurnace.getItemBurnTime(stack)
-    }
-
-    /**
-     * Returns whether or not the crusher can run with the current input and output stacks
-     * Does not look at fuel
-     */
-    private fun canRun(): Boolean {
-        val inputStack = itemStacks[INPUT_SLOT]
-        val outputStack = itemStacks[OUTPUT_SLOT]
-        if (inputStack.isEmpty) return false //we can't run if there is no input
-        val resultStack = CrusherRecipes.getRecipe(inputStack) //Get the recipe from the recipes registry
-        if (resultStack.isEmpty) return false //The recipe doesn't exist, so we can't run
-        if (outputStack.isEmpty) return true //At this point if the output stack is empty we can run
-        if (!outputStack.isItemEqual(resultStack)) return false //The result of this smelt doesn't match the items in the output
-        if (outputStack.count + resultStack.count <= Math.min(inventoryStackLimit, outputStack.maxStackSize)) return true //The items are the same and will fit in the stack
-        return false //The items will not fit
-    }
-
-    /**
-     * Takes one item from the input and crushes it
-     */
-    private fun crushItem() {
-        val inputStack = itemStacks[INPUT_SLOT]
-        val outputStack = itemStacks[OUTPUT_SLOT]
-        val resultStack = CrusherRecipes.getRecipe(inputStack) //Get the recipe from the recipes registry
-        if (outputStack.isEmpty) {
-            itemStacks[OUTPUT_SLOT] = resultStack.copy() //Put a new stack of the result into the output
-        } else if (outputStack.isItemEqual(resultStack)) {
-            outputStack.grow(resultStack.count) //Increase the number of items in the output by the count in the result
-        }
-
-        inputStack.shrink(1) //Remove an item from the input
+        return GeneratorController.isItemValidFuel(stack)
     }
 
     /**
@@ -111,40 +58,24 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
         }
     }
 
-    override fun onSlotChanged(index: Int, stack: ItemStack) {
-        totalProgress = getCrushTime(stack)
-        progress = 0
-    }
-
     override fun readFromNBT(compound: NBTTagCompound) {
         super.readFromNBT(compound)
         generator.readFromNBT(compound)
-        /*
-        crusherRunTime = compound.getInteger("run_time")
-        progress = compound.getInteger("crush_time")
-        totalProgress = compound.getInteger("total_crush_time")
-        currentItemRunTime = getItemRunTime(itemStacks[FUEL_SLOT])
-        */
+        crusher.readFromNBT(compound)
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         super.writeToNBT(compound)
         generator.writeToNBT(compound)
-        /*
-        compound.setInteger("run_time", crusherRunTime)
-        compound.setInteger("crush_time", progress)
-        compound.setInteger("total_crush_time", totalProgress)
-        return compound
-        */
+        crusher.writeToNBT(compound)
         return compound
     }
-
-    fun isRunning() = crusherRunTime > 0
 
     override fun update() {
         if (!world.isRemote) {
             val fuelStack = itemStacks[FUEL_SLOT]
             generator.update(fuelStack)
+            crusher.update(generator, itemStacks)
         }
         /*
         val runningAtStart = isRunning()
@@ -211,41 +142,4 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
         if (changed) markDirty() //Tell mc we changed
         */
     }
-
-    /**
-     * Apparently this is needed to synchronize between the client and the server in the GUI,
-     * although I don't understand why NBT can't just be used for this...
-     */
-    /*
-    override fun getField(id: Int): Int {
-        return when (id) {
-            FIELD_RUN_TIME -> crusherRunTime
-            FIELD_CURRENT_ITEM_RUN_TIME -> currentItemRunTime
-            FIELD_PROGRESS -> progress
-            FIELD_TOTAL_PROGRESS -> totalProgress
-            else -> return 0
-        }
-    }
-
-    override fun setField(id: Int, value: Int) {
-        when (id) {
-            FIELD_RUN_TIME -> {
-                crusherRunTime = value
-            }
-            FIELD_CURRENT_ITEM_RUN_TIME -> {
-                currentItemRunTime = value
-            }
-            FIELD_PROGRESS -> {
-                progress = value
-            }
-            FIELD_TOTAL_PROGRESS -> {
-                totalProgress = value
-            }
-        }
-    }
-
-    override fun getFieldCount(): Int {
-        return NUM_FIELDS
-    }
-    */
 }
