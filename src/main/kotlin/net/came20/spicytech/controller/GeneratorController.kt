@@ -94,10 +94,14 @@ public class GeneratorController(val powerPerTick: Int, val maxPower: Int): ICon
         return power >= powerIn
     }
 
+    override fun isPowerFull(): Boolean {
+        return power >= maxPower //Should never be greater, but just in case
+    }
+
     fun update(fuelStack: ItemStack): Boolean {
         var changed = false
         if (!isRunning()) { //If we're not running, check if we can
-            if (!fuelStack.isEmpty && isItemValidFuel(fuelStack)) { //If we can start running
+            if (!isPowerFull() && !fuelStack.isEmpty && isItemValidFuel(fuelStack)) { //If we can start running
                 fuelTotalBurnTime = getItemBurnTime(fuelStack) //Get the total burn time
                 burnTime = fuelTotalBurnTime //Set the current burn time to the total (loading new fuel)
                 fuelStack.shrink(1) //Remove one fuel from the stack

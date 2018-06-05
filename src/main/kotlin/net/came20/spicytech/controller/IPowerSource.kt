@@ -8,4 +8,5 @@ interface IPowerSource {
     fun addPower(powerIn: Int)
 
     fun checkPower(powerIn: Int): Boolean
+    fun isPowerFull(): Boolean
 }
