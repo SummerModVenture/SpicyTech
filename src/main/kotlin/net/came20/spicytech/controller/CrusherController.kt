@@ -15,6 +15,7 @@ class CrusherController(val powerDraw: Int): IController {
     }
     private var crushTime = 0
     private var itemTotalCrushTime = 0
+    private var running = false
 
     fun getItemCrushTime(stack: ItemStack): Int {
         return 200
@@ -82,25 +83,32 @@ class CrusherController(val powerDraw: Int): IController {
     }
 
     fun update(powerSource: IPowerSource, itemStacks: Array<ItemStack>): Boolean {
-        var changed = false
+        val runningAtStart = running
         if (powerSource.checkPower(powerDraw)) { //If the power source has enough power to run
             if (canRun(itemStacks)) {
+                running = true
                 powerSource.drawPower(powerDraw) //Draw the power
                 itemTotalCrushTime = getItemCrushTime(itemStacks[INPUT_SLOT]) //Get the current crush time
                 crushTime++ //Increment our progress
                 if (crushTime >= itemTotalCrushTime) { //We are done processing this item
                     crushTime = 0 //Reset the timer
                     crushItem(itemStacks)
-                    changed = true
                 }
             } else {
+                running = false
                 crushTime = 0
             }
         } else { //The power source doesn't have enough, start decreasing the crush progress by 2x speed
             if (crushTime > 0) { //If there is any progress
                 crushTime = MathHelper.clamp(crushTime - 2, 0, itemTotalCrushTime) //Decrease at 2x
+            } else {
+                running = false
             }
         }
-        return changed
+        return runningAtStart != running
+    }
+
+    fun isRunning(): Boolean {
+        return crushTime > 0
     }
 }

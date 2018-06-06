@@ -1,6 +1,9 @@
 itemGroup.spicytech_tab=SpicyTech
 
-container.test_storage.name=Test Storage
-container.basic_crusher.name=Basic Crusher
+tile.spicytech:basic_crusher.name=Basic Crusher
 
-item.iron_bits.name=Iron Bits
+container.spicytech:test_storage.name=Test Storage
+container.spicytech:basic_crusher.name=Basic Crusher
+
+item.spicytech:iron_bits.name=Iron Bits
+item.spicytech:gold_bits.name=Gold Bits

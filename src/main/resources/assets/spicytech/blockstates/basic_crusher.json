@@ -1,0 +1,38 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "uvlock": true
+  },
+  "variants": {
+    "facing": {
+      "north": {
+
+      },
+      "south": {
+        "y": 180
+      },
+      "east": {
+        "y": 90
+      },
+      "west": {
+        "y": 270
+      }
+    },
+    "active": {
+      "true": {
+        "submodel": "spicytech:basic_crusher_piston_crush"
+      },
+      "false": {
+        "submodel": "spicytech:basic_crusher_piston_nocrush"
+      }
+    },
+    "burning": {
+      "true": {
+        "submodel": "spicytech:basic_machine_grille_burn"
+      },
+      "false": {
+        "submodel": "spicytech:basic_machine_grille_noburn"
+      }
+    }
+  }
+}

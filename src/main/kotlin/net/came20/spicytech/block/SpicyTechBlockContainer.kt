@@ -1,5 +1,6 @@
 package net.came20.spicytech.block
 
+import net.came20.spicytech.ModInfo
 import net.came20.spicytech.tab.SpicyTechTab
 import net.minecraft.block.BlockContainer
 import net.minecraft.block.material.Material
@@ -9,7 +10,7 @@ import net.minecraft.util.EnumBlockRenderType
 
 abstract class SpicyTechBlockContainer(name: String, material: Material): BlockContainer(material) {
     init {
-        unlocalizedName = name
+        unlocalizedName = "${ModInfo.MODID}:$name"
         setRegistryName(name)
         setCreativeTab(SpicyTechTab)
     }

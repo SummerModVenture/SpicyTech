@@ -17,7 +17,7 @@ class TestStorageTileEntity: SpicyTechMachineTileEntity(9) {
     }
 
     override fun getName(): String {
-        return "container.test_storage.name"
+        return "container.spicytech:test_storage.name"
     }
 
     override fun getSlotsForFace(side: EnumFacing): IntArray {

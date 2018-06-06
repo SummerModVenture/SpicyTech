@@ -8,6 +8,7 @@ import net.came20.spicytech.init.ModGuiHandlers
 import net.came20.spicytech.init.ModSmeltingRecipes
 import net.came20.spicytech.init.ModTileEntities
 import net.came20.spicytech.recipe.CrusherRecipes
+import net.minecraft.init.Blocks
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -38,5 +39,6 @@ class SpicyTech {
     fun init(e: FMLInitializationEvent) {
         ModSmeltingRecipes.init()
         ModTileEntities.init()
+        println(Blocks.LIT_FURNACE.javaClass.name)
     }
 }

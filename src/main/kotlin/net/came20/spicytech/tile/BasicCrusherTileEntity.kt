@@ -1,5 +1,9 @@
 package net.came20.spicytech.tile
 
+import net.came20.spicytech.block.BasicCrusherBlock
+import net.came20.spicytech.block.SpicyTechBlockBasicMachine
+import net.came20.spicytech.block.SpicyTechBlockDirectional
+import net.came20.spicytech.block.SpicyTechBlockMachine
 import net.came20.spicytech.controller.CrusherController
 import net.came20.spicytech.controller.GeneratorController
 import net.came20.spicytech.recipe.CrusherRecipes
@@ -9,7 +13,7 @@ import net.minecraft.tileentity.TileEntityFurnace
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.MathHelper
 
-class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
+class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3), IBasicMachineRunningAccess {
     companion object {
         const val INPUT_SLOT = 0
         const val FUEL_SLOT = 1
@@ -29,7 +33,7 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
     }
 
     override fun getName(): String {
-        return "container.basic_crusher.name"
+        return "container.spicytech:basic_crusher.name"
     }
 
     override fun getSlotsForFace(side: EnumFacing): IntArray {
@@ -74,8 +78,30 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3) {
     override fun update() {
         if (!world.isRemote) {
             val fuelStack = itemStacks[FUEL_SLOT]
-            generator.update(fuelStack)
-            crusher.update(generator, itemStacks)
+            var shouldMark = false
+            if (generator.update(fuelStack)) {
+                shouldMark = true
+            }
+            if (crusher.update(generator, itemStacks)) {
+                shouldMark = true
+            }
+            if (shouldMark) {
+                val state = world.getBlockState(pos)
+                world.setBlockState(pos, BasicCrusherBlock.defaultState
+                        .withProperty(SpicyTechBlockDirectional.FACING, state.getValue(SpicyTechBlockDirectional.FACING))
+                        .withProperty(SpicyTechBlockMachine.ACTIVE, crusher.isRunning())
+                        .withProperty(SpicyTechBlockBasicMachine.BURNING, generator.isRunning())
+                )
+                markDirty()
+            }
         }
+    }
+
+    override fun isRunning(): Boolean {
+        return crusher.isRunning()
+    }
+
+    override fun isBurning(): Boolean {
+        return generator.isRunning()
     }
 }

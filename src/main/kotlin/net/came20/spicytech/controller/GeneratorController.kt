@@ -21,6 +21,7 @@ public class GeneratorController(val powerPerTick: Int, val maxPower: Int): ICon
     private var burnTime = 0
     private var fuelTotalBurnTime = 0
     private var power = 0
+    private var running = false
 
     override fun getNumFields(): Int {
         return 3
@@ -99,19 +100,21 @@ public class GeneratorController(val powerPerTick: Int, val maxPower: Int): ICon
     }
 
     fun update(fuelStack: ItemStack): Boolean {
-        var changed = false
+        val wasRunning = running
         if (!isRunning()) { //If we're not running, check if we can
             if (!isPowerFull() && !fuelStack.isEmpty && isItemValidFuel(fuelStack)) { //If we can start running
                 fuelTotalBurnTime = getItemBurnTime(fuelStack) //Get the total burn time
                 burnTime = fuelTotalBurnTime //Set the current burn time to the total (loading new fuel)
                 fuelStack.shrink(1) //Remove one fuel from the stack
-                changed = true
+                running = true
+            } else {
+                running = false
             }
         }
         if (isRunning()) { //If we were running before or if we've started now
             burnTime-- //Decrement burn time
             addPower(powerPerTick) //Add the power per tick to our power
         }
-        return changed
+        return wasRunning != running
     }
 }

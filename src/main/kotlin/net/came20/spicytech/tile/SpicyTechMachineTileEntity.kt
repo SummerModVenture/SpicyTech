@@ -1,6 +1,7 @@
 package net.came20.spicytech.tile
 
 import net.came20.spicytech.etc.FieldManager
+import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.IInventory
@@ -8,6 +9,8 @@ import net.minecraft.inventory.ISidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
+import net.minecraft.network.NetworkManager
+import net.minecraft.network.play.server.SPacketUpdateTileEntity
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
@@ -168,5 +171,28 @@ abstract class SpicyTechMachineTileEntity(numStacks: Int, fieldStartingIndex: In
 
     override fun canInsertItem(index: Int, itemStackIn: ItemStack, direction: EnumFacing): Boolean {
         return true
+    }
+
+    override fun shouldRefresh(world: World, pos: BlockPos, oldState: IBlockState, newState: IBlockState): Boolean {
+        return (oldState.block != newState.block)
+    }
+
+    override fun getUpdateTag(): NBTTagCompound {
+        val compound = NBTTagCompound()
+        writeToNBT(compound)
+        return compound
+    }
+
+    override fun handleUpdateTag(tag: NBTTagCompound) {
+        readFromNBT(tag)
+    }
+
+    override fun getUpdatePacket(): SPacketUpdateTileEntity? {
+        return SPacketUpdateTileEntity(pos, 0, updateTag)
+    }
+
+    override fun onDataPacket(net: NetworkManager?, pkt: SPacketUpdateTileEntity) {
+        val compound = pkt.nbtCompound
+        handleUpdateTag(compound)
     }
 }
