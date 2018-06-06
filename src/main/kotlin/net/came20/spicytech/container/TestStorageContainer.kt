@@ -21,6 +21,7 @@ class TestStorageContainer(val invPlayer: InventoryPlayer, val tile: TestStorage
     override fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack): ItemStack? {
         if (!mergeItemStack(sourceStack, MOD_FIRST_SLOT_INDEX, MOD_SLOT_LAST, false)) {
             if (!mergeWithPlayerInventory(sourceStack)) {
+                //THIS IS BAD DO NOT MERGE WITH PLAYER INVENTORY IT DUPES STACKS!!!!!!!!!!!!
                 return ItemStack.EMPTY
             }
         }

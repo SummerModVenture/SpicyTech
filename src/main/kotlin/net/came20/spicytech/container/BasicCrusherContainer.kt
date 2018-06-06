@@ -28,26 +28,14 @@ class BasicCrusherContainer(val invPlayer: InventoryPlayer, val tile: BasicCrush
     override fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack): ItemStack? {
         if (tile.isItemValidForSlot(BasicCrusherTileEntity.INPUT_SLOT, sourceStack)) { //Check if the item is valid for the input slot
             if (!mergeItemStack(sourceStack, MOD_FIRST_SLOT_INDEX + BasicCrusherTileEntity.INPUT_SLOT, MOD_FIRST_SLOT_INDEX + BasicCrusherTileEntity.INPUT_SLOT + 1, false)) { //If we can't put the item in that slot
-                if (!mergeWithPlayerInventory(sourceStack)) { //If we can't put the item in the first available slot of the player's inventory
-                    if (!mergeWithHotbar(sourceStack)) {
-                        return ItemStack.EMPTY //This signals the method that calls this one to return an empty stack
-                    }
-                }
+                return ItemStack.EMPTY //This signals the method that calls this one to return an empty stack
             }
         } else if (tile.isItemValidForSlot(BasicCrusherTileEntity.FUEL_SLOT, sourceStack)) { //Check if the item is valid for the fuel slot
             if (!mergeItemStack(sourceStack, MOD_FIRST_SLOT_INDEX + BasicCrusherTileEntity.FUEL_SLOT, MOD_FIRST_SLOT_INDEX + BasicCrusherTileEntity.FUEL_SLOT + 1, false)) { //If we can't put the item in that slot
-                if (!mergeWithPlayerInventory(sourceStack)) { //If we can't put the item in the first available slot of the player's inventory
-                    if (!mergeWithHotbar(sourceStack)) {
-                        return ItemStack.EMPTY //see above
-                    }
-                }
+                return ItemStack.EMPTY //see above
             }
-        } else { //Just try to merge with player's inventory
-            if (!mergeWithPlayerInventory(sourceStack)) { //See above
-                if (!mergeWithHotbar(sourceStack)) {
-                    return ItemStack.EMPTY
-                }
-            }
+        } else {
+            return ItemStack.EMPTY
         }
         return null //This signals to the method that calls this one that we completed our move successfully
     }
