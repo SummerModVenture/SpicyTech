@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntityFurnace
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.MathHelper
 
-class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3), IBasicMachineRunningAccess {
+class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3), IBasicMachineRunningAccess, IPoweredMachineAccess {
     companion object {
         const val INPUT_SLOT = 0
         const val FUEL_SLOT = 1
@@ -24,8 +24,8 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3), IBasicMachineRunnin
         val SLOTS_TOP = intArrayOf(INPUT_SLOT)
     }
 
-    val generator = GeneratorController(1, Short.MAX_VALUE.toInt())
-    val crusher = CrusherController(1)
+    val generator = GeneratorController(16, 32768)
+    val crusher = CrusherController(16)
 
     init {
         fieldManager.register(generator)
@@ -103,5 +103,13 @@ class BasicCrusherTileEntity: SpicyTechMachineTileEntity(3), IBasicMachineRunnin
 
     override fun isBurning(): Boolean {
         return generator.isRunning()
+    }
+
+    override fun getPower(): Int {
+        return generator.getAvailablePower()
+    }
+
+    override fun setPower(powerIn: Int) {
+        generator.setPower(powerIn)
     }
 }

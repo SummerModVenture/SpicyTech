@@ -22,7 +22,7 @@ import net.minecraft.world.chunk.Chunk
 /**
  * Will need later for directional blocks
  */
-abstract class SpicyTechBlockMachine(name: String, private val guiHandler: SpicyTechGuiHandler): SpicyTechBlockDirectional(name, Material.IRON) {
+abstract class SpicyTechBlockMachine(name: String, private val guiHandler: SpicyTechGuiHandler, material: Material = Material.IRON): SpicyTechBlockDirectional(name, material) {
     companion object {
         val ACTIVE = PropertyBool.create("active")
     }

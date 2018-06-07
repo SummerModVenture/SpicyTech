@@ -6,6 +6,7 @@ interface IPowerSource {
 
     fun drawPower(desired: Int): Int
     fun addPower(powerIn: Int)
+    fun setPower(powerIn: Int)
 
     fun checkPower(powerIn: Int): Boolean
     fun isPowerFull(): Boolean

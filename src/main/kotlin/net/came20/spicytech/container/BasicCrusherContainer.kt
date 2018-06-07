@@ -8,11 +8,11 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.item.ItemStack
 
-class BasicCrusherContainer(val invPlayer: InventoryPlayer, val tile: BasicCrusherTileEntity): SpicyTechContainer(invPlayer, tile,
+class BasicCrusherContainer(invPlayer: InventoryPlayer, tile: BasicCrusherTileEntity): SpicyTechPowerContainer(invPlayer, tile,
         HotbarSlotSet(invPlayer, 8, 142),
         PlayerInventorySlotSet(invPlayer, 8, 84),
-        TileSlotSet("input_slot", tile, 1, 1, 56, 17),
-        TileSlotSet("fuel_slot", tile, 1, 1, 56, 53),
+        TileSlotSet("input_slot", tile, 1, 1, 56, 34),
+        TileSlotSet("fuel_slot", tile, 1, 1, 8, 54),
         TileSlotSet("output_slot", tile, 1, 1, 116, 35)
         ) {
 

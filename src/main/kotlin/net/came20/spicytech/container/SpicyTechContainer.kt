@@ -1,20 +1,23 @@
 package net.came20.spicytech.container
 
+import net.came20.spicytech.SpicyTech
 import net.came20.spicytech.tile.SpicyTechMachineTileEntity
 import net.came20.spicytech.etc.IVanillaSlotSet
 import net.came20.spicytech.etc.SlotSetBase
+import net.came20.spicytech.network.PowerUpdatePacket
+import net.came20.spicytech.tile.IPoweredMachineAccess
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.inventory.Container
 import net.minecraft.inventory.Slot
 import net.minecraft.item.ItemStack
-import net.minecraftforge.fml.common.thread.SidedThreadGroups.CLIENT
+import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 
-
-abstract class SpicyTechContainer(private val invPlayer: InventoryPlayer, private val tile: SpicyTechMachineTileEntity, vararg val slotSets: SlotSetBase): Container() {
+abstract class SpicyTechContainer(protected val invPlayer: InventoryPlayer, protected val tile: SpicyTechMachineTileEntity, vararg val slotSets: SlotSetBase): Container() {
     companion object {
         const val HOTBAR_SLOT_COUNT = 9
         const val PLAYER_INVENTORY_ROW_COUNT = 3
@@ -89,6 +92,9 @@ abstract class SpicyTechContainer(private val invPlayer: InventoryPlayer, privat
 
     override fun detectAndSendChanges() {
         super.detectAndSendChanges()
+
+
+
         if (tile.fieldCount > 0) {
             var allFieldsHaveChanged = false
             val fieldHasChanged = BooleanArray(tile.fieldCount, { false })

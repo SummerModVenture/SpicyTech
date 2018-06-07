@@ -9,7 +9,7 @@ import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 
-class TestStorageContainer(val invPlayer: InventoryPlayer, val tile: TestStorageTileEntity): SpicyTechContainer(invPlayer, tile,
+class TestStorageContainer(invPlayer: InventoryPlayer, tile: TestStorageTileEntity): SpicyTechContainer(invPlayer, tile,
         HotbarSlotSet(invPlayer, 8, 109), //Hotbar
         PlayerInventorySlotSet(invPlayer, 8, 51), //Player inventory
         TileSlotSet("test_storage", tile, 1, 9, 8, 20) //Test inventory

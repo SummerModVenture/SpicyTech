@@ -8,7 +8,6 @@ public class GeneratorController(val powerPerTick: Int, val maxPower: Int): ICon
     companion object {
         const val BURN_TIME_FIELD_ID = 0
         const val FUEL_TOTAL_BURN_TIME_FIELD_ID = 1
-        const val POWER_FIELD_ID = 2
 
         fun isItemValidFuel(stack: ItemStack): Boolean {
             return TileEntityFurnace.isItemFuel(stack)
@@ -31,7 +30,6 @@ public class GeneratorController(val powerPerTick: Int, val maxPower: Int): ICon
         return when (id) {
             BURN_TIME_FIELD_ID -> burnTime
             FUEL_TOTAL_BURN_TIME_FIELD_ID -> fuelTotalBurnTime
-            POWER_FIELD_ID -> power
             else -> 0
         }
     }
@@ -40,7 +38,6 @@ public class GeneratorController(val powerPerTick: Int, val maxPower: Int): ICon
         when (id) {
             BURN_TIME_FIELD_ID -> burnTime = value
             FUEL_TOTAL_BURN_TIME_FIELD_ID -> fuelTotalBurnTime = value
-            POWER_FIELD_ID -> power = value
         }
     }
 
@@ -89,6 +86,10 @@ public class GeneratorController(val powerPerTick: Int, val maxPower: Int): ICon
         } else {
             power += powerIn
         }
+    }
+
+    override fun setPower(powerIn: Int) {
+        power = powerIn
     }
 
     override fun checkPower(powerIn: Int): Boolean {

@@ -2,6 +2,7 @@ package net.came20.spicytech.block
 
 import net.came20.spicytech.guihandler.SpicyTechGuiHandler
 import net.came20.spicytech.tile.IBasicMachineRunningAccess
+import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
@@ -15,7 +16,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 
-abstract class SpicyTechBlockBasicMachine(name: String, guiHandler: SpicyTechGuiHandler): SpicyTechBlockMachine(name, guiHandler) {
+abstract class SpicyTechBlockBasicMachine(name: String, guiHandler: SpicyTechGuiHandler): SpicyTechBlockMachine(name, guiHandler, Material.ROCK) {
     companion object {
         val BURNING = PropertyBool.create("burning")
     }

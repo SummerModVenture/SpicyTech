@@ -2,7 +2,7 @@
   "parent": "block/orientable",
   "textures": {
     "top": "spicytech:blocks/basic_machine_base",
-    "front": "spicytech:blocks/basic_crusher_front_full",
+    "front": "spicytech:blocks/basic_crusher_front_inv",
     "side": "spicytech:blocks/basic_machine_base"
   }
 }
