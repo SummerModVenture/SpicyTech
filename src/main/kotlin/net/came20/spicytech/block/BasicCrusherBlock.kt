@@ -24,11 +24,4 @@ object BasicCrusherBlock : SpicyTechBlockBasicMachine("basic_crusher", BasicCrus
     override fun onBlockAdded(worldIn: World?, pos: BlockPos?, state: IBlockState?) {
         super.onBlockAdded(worldIn, pos, state)
     }
-
-    override fun onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState?, playerIn: EntityPlayer, hand: EnumHand?, facing: EnumFacing?, hitX: Float, hitY: Float, hitZ: Float): Boolean {
-        super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ)
-        val tile = worldIn.getTileEntity(pos) as BasicCrusherTileEntity
-        playerIn.sendMessage(TextComponentString("Generator:  power=${tile.generator.getAvailablePower()}  running=${tile.generator.isRunning()}  burnPercent=${tile.generator.getBurnTimePercentage()}"))
-        return true
-    }
 }

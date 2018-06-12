@@ -1,9 +1,14 @@
 itemGroup.spicytech_tab=SpicyTech
 
 tile.spicytech:basic_crusher.name=Basic Crusher
+tile.spicytech:basic_machine_frame.name=Basic Machine Frame
+tile.spicytech:titanium_ore.name=Titanium Ore
 
 container.spicytech:test_storage.name=Test Storage
 container.spicytech:basic_crusher.name=Basic Crusher
+container.spicytech:component_workbench.name=Component Workbench
 
 item.spicytech:iron_bits.name=Iron Bits
 item.spicytech:gold_bits.name=Gold Bits
+item.spicytech:titanium_bits.name=Titanium Bits
+item.spicytech:titanium_ingot.name=Titanium Ingot

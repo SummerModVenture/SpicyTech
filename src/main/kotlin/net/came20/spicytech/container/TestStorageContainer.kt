@@ -6,7 +6,6 @@ import net.came20.spicytech.etc.PlayerInventorySlotSet
 import net.came20.spicytech.etc.TileSlotSet
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.InventoryPlayer
-import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 
 class TestStorageContainer(invPlayer: InventoryPlayer, tile: TestStorageTileEntity): SpicyTechContainer(invPlayer, tile,
@@ -18,7 +17,7 @@ class TestStorageContainer(invPlayer: InventoryPlayer, tile: TestStorageTileEnti
         const val MOD_SLOT_LAST = MOD_FIRST_SLOT_INDEX + 9
     }
 
-    override fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack): ItemStack? {
+    override fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack, index: Int): ItemStack? {
         if (!mergeItemStack(sourceStack, MOD_FIRST_SLOT_INDEX, MOD_SLOT_LAST, false)) {
             if (!mergeWithPlayerInventory(sourceStack)) {
                 //THIS IS BAD DO NOT MERGE WITH PLAYER INVENTORY IT DUPES STACKS!!!!!!!!!!!!
@@ -28,7 +27,7 @@ class TestStorageContainer(invPlayer: InventoryPlayer, tile: TestStorageTileEnti
         return null
     }
 
-    override fun onContainerToPlayer(player: EntityPlayer, sourceStack: ItemStack): ItemStack? {
+    override fun onContainerToPlayer(player: EntityPlayer, sourceStack: ItemStack, index: Int): ItemStack? {
         if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_SLOT_COUNT, false)) {
             return ItemStack.EMPTY
         }

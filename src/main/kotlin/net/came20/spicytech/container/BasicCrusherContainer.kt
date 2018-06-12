@@ -16,7 +16,7 @@ class BasicCrusherContainer(invPlayer: InventoryPlayer, tile: BasicCrusherTileEn
         TileSlotSet("output_slot", tile, 1, 1, 116, 35)
         ) {
 
-    override fun onContainerToPlayer(player: EntityPlayer, sourceStack: ItemStack): ItemStack? {
+    override fun onContainerToPlayer(player: EntityPlayer, sourceStack: ItemStack, index: Int): ItemStack? {
         if (!mergeWithPlayerInventory(sourceStack)) {
             if (!mergeWithHotbar(sourceStack)) {
                 return ItemStack.EMPTY
@@ -25,7 +25,7 @@ class BasicCrusherContainer(invPlayer: InventoryPlayer, tile: BasicCrusherTileEn
         return null
     }
 
-    override fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack): ItemStack? {
+    override fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack, index: Int): ItemStack? {
         if (tile.isItemValidForSlot(BasicCrusherTileEntity.INPUT_SLOT, sourceStack)) { //Check if the item is valid for the input slot
             if (!mergeItemStack(sourceStack, MOD_FIRST_SLOT_INDEX + BasicCrusherTileEntity.INPUT_SLOT, MOD_FIRST_SLOT_INDEX + BasicCrusherTileEntity.INPUT_SLOT + 1, false)) { //If we can't put the item in that slot
                 return ItemStack.EMPTY //This signals the method that calls this one to return an empty stack

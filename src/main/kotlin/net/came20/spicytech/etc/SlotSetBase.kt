@@ -11,7 +11,8 @@ abstract class SlotSetBase(val name: String,
                        val startXPos: Int,
                        val startYPos: Int,
                        val xSpacing: Int = 18,
-                       val ySpacing: Int = 18) {
+                       val ySpacing: Int = 18,
+                       val onChanged: (Int) -> Unit = {}) {
     val numSlots = numRows * numCols
 
     fun buildSlots(firstSlot: Int): Array<Slot> {
@@ -26,6 +27,11 @@ abstract class SlotSetBase(val name: String,
                 slots[i] = object : Slot(inventory, slotNumber, xPos, yPos) {
                     override fun isItemValid(stack: ItemStack): Boolean {
                         return inventory.isItemValidForSlot(slotNumber, stack)
+                    }
+
+                    override fun onSlotChanged() {
+                        super.onSlotChanged()
+                        onChanged(slotNumber)
                     }
                 }
                 i++

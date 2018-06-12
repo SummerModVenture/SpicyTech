@@ -9,5 +9,6 @@ class TileSlotSet(name: String,
                   startXPos: Int,
                   startYPos: Int,
                   xSpacing: Int = 18,
-                  ySpacing: Int = 18) : SlotSetBase(
-        name, inventory, numRows, numCols, startXPos, startYPos, xSpacing, ySpacing)
+                  ySpacing: Int = 18,
+                  onChanged: (Int) -> Unit = {}) : SlotSetBase(
+        name, inventory, numRows, numCols, startXPos, startYPos, xSpacing, ySpacing, onChanged)

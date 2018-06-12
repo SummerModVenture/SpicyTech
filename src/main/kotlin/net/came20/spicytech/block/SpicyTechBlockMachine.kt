@@ -22,7 +22,7 @@ import net.minecraft.world.chunk.Chunk
 /**
  * Will need later for directional blocks
  */
-abstract class SpicyTechBlockMachine(name: String, private val guiHandler: SpicyTechGuiHandler, material: Material = Material.IRON): SpicyTechBlockDirectional(name, material) {
+abstract class SpicyTechBlockMachine(name: String, guiHandler: SpicyTechGuiHandler, material: Material = Material.IRON): SpicyTechBlockDirectional(name, material, guiHandler) {
     companion object {
         val ACTIVE = PropertyBool.create("active")
     }
@@ -49,17 +49,5 @@ abstract class SpicyTechBlockMachine(name: String, private val guiHandler: Spicy
                     .withProperty(ACTIVE, tile.isRunning())
         }
         return state
-    }
-
-    override fun onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState?, playerIn: EntityPlayer, hand: EnumHand?, facing: EnumFacing?, hitX: Float, hitY: Float, hitZ: Float): Boolean {
-        if (worldIn.isRemote) return true
-        playerIn.openGui(SpicyTech.instance, guiHandler.id.ordinal, worldIn, pos.x, pos.y, pos.z)
-        return true
-    }
-
-    override fun breakBlock(worldIn: World, pos: BlockPos, state: IBlockState?) {
-        val tile = worldIn.getTileEntity(pos) as? SpicyTechMachineTileEntity
-        tile?.dropItems(worldIn, pos)
-        super.breakBlock(worldIn, pos, state) //This is required to destroy the tile entity associated with this block
     }
 }

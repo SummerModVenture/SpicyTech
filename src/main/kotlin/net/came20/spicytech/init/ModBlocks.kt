@@ -25,7 +25,10 @@ object ModBlocks {
     @JvmStatic fun registerBlocks(e: RegistryEvent.Register<Block>) {
         e.registry.registerAll(
                 TestStorageBlock,
-                BasicCrusherBlock
+                BasicCrusherBlock,
+                BasicMachineFrameBlock,
+                TitaniumOreBlock,
+                ComponentWorkbenchBlock
         )
     }
 
@@ -33,7 +36,10 @@ object ModBlocks {
     @JvmStatic fun registerItemBlocks(e: RegistryEvent.Register<Item>) {
         e.registry.registerAll(
                 itemBlock(TestStorageBlock),
-                itemBlock(BasicCrusherBlock)
+                itemBlock(BasicCrusherBlock),
+                itemBlock(BasicMachineFrameBlock),
+                itemBlock(TitaniumOreBlock),
+                itemBlock(ComponentWorkbenchBlock)
         )
     }
 
@@ -41,6 +47,9 @@ object ModBlocks {
     @JvmStatic fun registerRenders(e: ModelRegistryEvent) {
         registerRender(TestStorageBlock)
         registerRender(BasicCrusherBlock)
+        registerRender(BasicMachineFrameBlock)
+        registerRender(TitaniumOreBlock)
+        registerRender(ComponentWorkbenchBlock)
     }
 
     fun init() {

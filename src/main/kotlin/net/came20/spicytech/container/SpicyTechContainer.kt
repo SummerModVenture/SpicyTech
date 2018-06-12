@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.inventory.Container
+import net.minecraft.inventory.IInventory
 import net.minecraft.inventory.Slot
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 
-abstract class SpicyTechContainer(protected val invPlayer: InventoryPlayer, protected val tile: SpicyTechMachineTileEntity, vararg val slotSets: SlotSetBase): Container() {
+abstract class SpicyTechContainer(protected val invPlayer: InventoryPlayer, protected val tile: IInventory, vararg val slotSets: SlotSetBase): Container() {
     companion object {
         const val HOTBAR_SLOT_COUNT = 9
         const val PLAYER_INVENTORY_ROW_COUNT = 3
@@ -58,13 +59,13 @@ abstract class SpicyTechContainer(protected val invPlayer: InventoryPlayer, prot
         return tile.isUsableByPlayer(playerIn)
     }
 
-    override fun onContainerClosed(playerIn: EntityPlayer?) {
+    override fun onContainerClosed(playerIn: EntityPlayer) {
         super.onContainerClosed(playerIn)
         tile.closeInventory(playerIn)
     }
 
-    abstract fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack): ItemStack?
-    abstract fun onContainerToPlayer(player: EntityPlayer, sourceStack: ItemStack): ItemStack?
+    abstract fun onPlayerToContainer(player: EntityPlayer, sourceStack: ItemStack, index: Int): ItemStack?
+    abstract fun onContainerToPlayer(player: EntityPlayer, sourceStack: ItemStack, index: Int): ItemStack?
 
     override fun transferStackInSlot(playerIn: EntityPlayer, index: Int): ItemStack {
         val sourceSlot = inventorySlots[index]
@@ -73,10 +74,10 @@ abstract class SpicyTechContainer(protected val invPlayer: InventoryPlayer, prot
         val copyOfSourceStack = sourceStack.copy()
 
         if (isPlayerInventory(index)) {
-            val stack = onPlayerToContainer(playerIn, sourceStack)
+            val stack = onPlayerToContainer(playerIn, sourceStack, index)
             if (stack != null) return stack
         } else {
-            val stack = onContainerToPlayer(playerIn, sourceStack)
+            val stack = onContainerToPlayer(playerIn, sourceStack, index)
             if (stack != null) return stack
         }
 

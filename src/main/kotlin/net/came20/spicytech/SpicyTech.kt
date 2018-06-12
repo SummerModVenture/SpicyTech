@@ -10,6 +10,7 @@ import net.came20.spicytech.init.ModSmeltingRecipes
 import net.came20.spicytech.init.ModTileEntities
 import net.came20.spicytech.network.PowerUpdatePacket
 import net.came20.spicytech.network.PowerUpdatePacketHandler
+import net.came20.spicytech.recipe.ComponentWorkbenchRecipes
 import net.came20.spicytech.recipe.CrusherRecipes
 import net.minecraft.init.Blocks
 import net.minecraftforge.fml.common.Loader
@@ -48,5 +49,7 @@ class SpicyTech {
         }
         ModSmeltingRecipes.init()
         ModTileEntities.init()
+        CrusherRecipes.init()
+        ComponentWorkbenchRecipes.init()
     }
 }

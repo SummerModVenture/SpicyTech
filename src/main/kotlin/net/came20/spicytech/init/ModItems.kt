@@ -1,8 +1,7 @@
 package net.came20.spicytech.init
 
 import net.came20.spicytech.ModInfo
-import net.came20.spicytech.item.GoldBitsItem
-import net.came20.spicytech.item.IronBitsItem
+import net.came20.spicytech.item.*
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.item.Item
 import net.minecraftforge.client.event.ModelRegistryEvent
@@ -21,7 +20,9 @@ object ModItems {
     @JvmStatic fun registerItems(e: RegistryEvent.Register<Item>) {
         e.registry.registerAll(
                 IronBitsItem,
-                GoldBitsItem
+                GoldBitsItem,
+                TitaniumBitsItem,
+                TitaniumIngotItem
         )
     }
 
@@ -29,5 +30,7 @@ object ModItems {
     @JvmStatic fun registerRenders(e: ModelRegistryEvent) {
         registerRender(IronBitsItem)
         registerRender(GoldBitsItem)
+        registerRender(TitaniumBitsItem)
+        registerRender(TitaniumIngotItem)
     }
 }

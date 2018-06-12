@@ -7,6 +7,7 @@ import net.came20.spicytech.tile.IPoweredMachineAccess
 import net.came20.spicytech.tile.SpicyTechMachineTileEntity
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.entity.player.InventoryPlayer
+import net.minecraft.tileentity.TileEntity
 
 abstract class SpicyTechPowerContainer(invPlayer: InventoryPlayer, tile: SpicyTechMachineTileEntity, vararg slotSets: SlotSetBase): SpicyTechContainer(invPlayer, tile, *slotSets) {
     private var cachedPower = 0
@@ -14,7 +15,7 @@ abstract class SpicyTechPowerContainer(invPlayer: InventoryPlayer, tile: SpicyTe
     override fun detectAndSendChanges() {
         super.detectAndSendChanges()
 
-        if (tile is IPoweredMachineAccess) {
+        if (tile is IPoweredMachineAccess && tile is TileEntity) {
             val power = tile.getPower()
             if (power != cachedPower) { //power has changed
                 cachedPower = power //update cache

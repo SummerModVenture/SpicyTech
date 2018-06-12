@@ -1,5 +1,6 @@
 package net.came20.spicytech.block
 
+import net.came20.spicytech.guihandler.SpicyTechGuiHandler
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.BlockStateContainer
@@ -12,7 +13,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
-abstract class SpicyTechBlockDirectional(name: String, material: Material): SpicyTechBlockContainer(name, material) {
+abstract class SpicyTechBlockDirectional(name: String, material: Material, guiHandler: SpicyTechGuiHandler): SpicyTechBlockContainer(name, material, guiHandler) {
     companion object {
         val FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL)
     }
