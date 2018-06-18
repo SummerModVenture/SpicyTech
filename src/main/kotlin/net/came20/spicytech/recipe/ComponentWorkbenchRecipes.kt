@@ -22,8 +22,7 @@ object ComponentWorkbenchRecipes {
 
 
     fun init() {
-        add(ItemStack(Items.IRON_INGOT, 2), Items.GOLD_INGOT)
-        add(ItemStack(Items.DIAMOND_PICKAXE), ItemStack(Items.GOLD_INGOT, 2))
+        add(ItemStack(Items.IRON_INGOT, 2), ItemStack(Items.GOLD_INGOT, 4, RecipesBase.IGNORE_META))
     }
 
     fun compare(input: ItemStack, recipe: ItemStack): Boolean {
@@ -46,7 +45,12 @@ object ComponentWorkbenchRecipes {
     private fun hasAllNecessary(inputsIn: Array<out ItemStack>, recipeIn: List<ItemStack>): Int {
         val inputs = inputsIn.filter { !it.isEmpty }
         recipeIn.forEach {
-            if (!stacksContainsStack(inputs, it)) return 0 //Not all stacks match
+            rInput ->
+            if (stacksContainsStack(inputs, rInput)) { //If the recipe contains the input stack
+                if (inputs.first { compare(it, rInput) }.count < rInput.count) {
+                    return 0
+                }
+            }
         }
         return 1
     }

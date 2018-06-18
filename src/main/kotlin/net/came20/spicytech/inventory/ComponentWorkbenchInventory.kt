@@ -70,14 +70,13 @@ class ComponentWorkbenchInventory: SpicyTechInventory(NUM_SLOTS) {
         val recipeInputs = ComponentWorkbenchRecipes.reverseLookup(stack) //Get the recipe inputs
         var possible = Int.MAX_VALUE //Allows Math.min to work properly
         recipeInputs.forEach {
-            if (ComponentWorkbenchRecipes.stacksContainsStack(inputStacks, it)) {
-                possible = Math.min(it.count, possible)
+            rInput ->
+            if (ComponentWorkbenchRecipes.stacksContainsStack(inputStacks, rInput)) {
+                possible = Math.min(inputStacks.first { ComponentWorkbenchRecipes.compare(it, rInput)}.count / rInput.count, possible)
             }
         }
         if (possible == Int.MAX_VALUE) possible = 0 //In this case none were found, make it 0
-        while (possible * stack.count > 64) {
-            possible-- //This is probably not very efficient at all, but it will work
-        }
+        //The game will split a stack with a size greater than 64 for us
         //Now that we have the number of possible times we can repeat the recipe, we do some operations on the stack
         stack.count *= possible //Increase the output stack count to the number we will be creating
         return object : ShrinkContext { //create a shrink context which can be used by the container to decide whether or not to shrink
