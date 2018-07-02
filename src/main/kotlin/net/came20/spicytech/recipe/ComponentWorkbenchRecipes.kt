@@ -1,6 +1,8 @@
 package net.came20.spicytech.recipe
 
 import com.spicymemes.core.recipe.RecipesBase
+import net.came20.spicytech.item.CrusherComponentItem
+import net.came20.spicytech.item.SawmillComponentItem
 import net.minecraft.block.Block
 import net.minecraft.init.Items
 import net.minecraft.item.Item
@@ -8,13 +10,23 @@ import net.minecraft.item.ItemStack
 
 object ComponentWorkbenchRecipes {
     private val recipes = ArrayList<Pair<List<ItemStack>, ItemStack>>()
-    private fun add(output: ItemStack, vararg inputsIn: Any) {
+    private fun add(outputIn: Any, vararg inputsIn: Any) {
+        val output: ItemStack
         val inputs = arrayListOf<ItemStack>()
+
+        when (outputIn) {
+            is ItemStack -> output = outputIn
+            is Item -> output = ItemStack(outputIn, 1)
+            is Block -> output = ItemStack(Item.getItemFromBlock(outputIn), 1)
+            else -> throw RuntimeException("Invalid ouptut type ${outputIn.javaClass.name}")
+        }
+
         inputsIn.forEach {
             when (it) {
                 is ItemStack -> inputs.add(it)
                 is Item -> inputs.add(ItemStack(it, 1, RecipesBase.IGNORE_META))
                 is Block -> inputs.add(ItemStack(Item.getItemFromBlock(it), 1, RecipesBase.IGNORE_META))
+                else -> throw RuntimeException("Invalid input type ${it.javaClass.name}")
             }
         }
         recipes.add(Pair(inputs, output))
@@ -22,7 +34,9 @@ object ComponentWorkbenchRecipes {
 
 
     fun init() {
-        add(ItemStack(Items.IRON_INGOT, 2), ItemStack(Items.GOLD_INGOT, 4, RecipesBase.IGNORE_META))
+        //add(ouptut, inputs...)
+        add(CrusherComponentItem, ItemStack(Items.IRON_INGOT, 2, RecipesBase.IGNORE_META))
+        add(SawmillComponentItem, ItemStack(Items.IRON_INGOT, 2, RecipesBase.IGNORE_META))
     }
 
     fun compare(input: ItemStack, recipe: ItemStack): Boolean {

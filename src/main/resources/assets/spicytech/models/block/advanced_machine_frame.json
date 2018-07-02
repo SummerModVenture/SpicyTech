@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "spicytech:blocks/advanced_machine_base"
+  }
+}

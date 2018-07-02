@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spicytech:titanium_block"
+    }
+  ],
+  "result": {
+    "item": "spicytech:titanium_ingot",
+    "count": 9
+  }
+}

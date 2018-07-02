@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "spicytech:titanium_ingot"
+    }
+  },
+  "result": {
+    "item": "spicytech:titanium_block",
+    "count": 1
+  }
+}

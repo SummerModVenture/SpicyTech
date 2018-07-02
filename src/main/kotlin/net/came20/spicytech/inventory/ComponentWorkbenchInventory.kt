@@ -1,15 +1,8 @@
 package net.came20.spicytech.inventory
 
-import assets.spicytech.clientOnly
-import assets.spicytech.hasStackIgnoreDurability
-import assets.spicytech.serverOnly
 import net.came20.spicytech.container.SpicyTechContainer
 import net.came20.spicytech.recipe.ComponentWorkbenchRecipes
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
-import net.minecraftforge.fml.common.asm.transformers.ItemStackTransformer
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 
 class ComponentWorkbenchInventory: SpicyTechInventory(NUM_SLOTS) {
     companion object {

@@ -12,27 +12,27 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @Mod.EventBusSubscriber(modid = ModInfo.MODID)
 object ModItems {
+    private val items = arrayOf(
+            *MachineComponents.all,
+            IronBitsItem,
+            GoldBitsItem,
+            TitaniumBitsItem,
+            TitaniumIngotItem
+    )
+
     private fun registerRender(i: Item) {
         ModelLoader.setCustomModelResourceLocation(i, 0, ModelResourceLocation(i.registryName, "inventory"))
     }
 
     @SubscribeEvent
     @JvmStatic fun registerItems(e: RegistryEvent.Register<Item>) {
-        e.registry.registerAll(
-                *MachineComponents.all,
-                IronBitsItem,
-                GoldBitsItem,
-                TitaniumBitsItem,
-                TitaniumIngotItem
-        )
+        e.registry.registerAll(*items)
     }
 
     @SubscribeEvent
     @JvmStatic fun registerRenders(e: ModelRegistryEvent) {
-        MachineComponents.all.forEach { registerRender(it) }
-        registerRender(IronBitsItem)
-        registerRender(GoldBitsItem)
-        registerRender(TitaniumBitsItem)
-        registerRender(TitaniumIngotItem)
+        items.forEach {
+            registerRender(it)
+        }
     }
 }

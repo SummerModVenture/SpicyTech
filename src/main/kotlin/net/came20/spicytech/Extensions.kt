@@ -1,4 +1,4 @@
-package assets.spicytech
+package net.came20.spicytech
 
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
