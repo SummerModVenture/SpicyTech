@@ -19,6 +19,7 @@ object ModItems {
     @SubscribeEvent
     @JvmStatic fun registerItems(e: RegistryEvent.Register<Item>) {
         e.registry.registerAll(
+                *MachineComponents.all,
                 IronBitsItem,
                 GoldBitsItem,
                 TitaniumBitsItem,
@@ -28,6 +29,7 @@ object ModItems {
 
     @SubscribeEvent
     @JvmStatic fun registerRenders(e: ModelRegistryEvent) {
+        MachineComponents.all.forEach { registerRender(it) }
         registerRender(IronBitsItem)
         registerRender(GoldBitsItem)
         registerRender(TitaniumBitsItem)
